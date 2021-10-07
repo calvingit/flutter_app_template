@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
+import '/utils/themes.dart';
 import '/i18n/translation_service.dart';
 import '/routes/app_pages.dart';
 
@@ -15,6 +15,9 @@ class App extends StatelessWidget {
 
       /// 日志
       enableLog: true,
+
+      /// 主题
+      theme: Themes.light,
 
       /// 路由
       initialRoute: AppPages.initial,

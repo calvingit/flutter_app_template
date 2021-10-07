@@ -17,7 +17,7 @@ class SplashPage extends GetView<SplashController> {
               //
               Get.offAndToNamed(Routes.login);
             },
-            child: const Text('登录'),
+            child: Text('sign_in'.tr, style: context.textTheme.button),
           ),
         ],
       ),
