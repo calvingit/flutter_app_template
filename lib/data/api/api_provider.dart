@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import '/constants/constants.dart';
+import 'package:flutter_app_template/shared/constants/urls.dart';
 import 'api_response.dart';
 import 'http_client.dart';
 
 class ApiProvider {
-  HttpClient client = HttpClient(Urls.devBaseUrl);
+  HttpClient client = HttpClient(devBaseUrl);
   ApiProvider();
 
   Future<ApiResponse> get(

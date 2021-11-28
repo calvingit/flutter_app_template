@@ -16,7 +16,7 @@ class HttpClient {
       connectTimeout: 5000,
       receiveTimeout: 5000,
       sendTimeout: 5000,
-      contentType: Headers.formUrlEncodedContentType,
+      contentType: Headers.jsonContentType,
     ));
 
     _dio.interceptors.add(RequestInterceptor());
