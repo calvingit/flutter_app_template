@@ -4,31 +4,56 @@ import 'package:flutter_app_template/data/api/api_exception.dart';
 import 'interceptors/request_interceptor.dart';
 import 'interceptors/response_interceptor.dart';
 
+enum HttpMethod { get, post }
+
 class HttpClient {
-  late Dio _dio;
+  final dio = Dio();
   HttpClient(String baseUrl) {
-    _setupDio(baseUrl);
-  }
-
-  void _setupDio(String baseUrl) {
-    _dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: 5000,
-      receiveTimeout: 5000,
-      sendTimeout: 5000,
-      contentType: Headers.jsonContentType,
-    ));
-
-    _dio.interceptors.add(RequestInterceptor());
-    _dio.interceptors.add(ResponseInterceptor());
+    dio.options
+      ..baseUrl = baseUrl
+      ..connectTimeout = 5000
+      ..receiveTimeout = 5000
+      ..sendTimeout = 5000
+      ..contentType = Headers.jsonContentType;
 
     /// 其他功能拦截器
-    /// - fresh_dio ： token自动刷新
+    /// - freshdio ： token自动刷新
     /// - network_logger : 带日志列表的UI，用于测试的时候
-    _dio.interceptors.add(LogInterceptor(
-      requestBody: true,
-      responseBody: true,
-    ));
+    dio.interceptors
+      ..add(RequestInterceptor())
+      ..add(ResponseInterceptor())
+      ..add(LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+      ));
+  }
+
+  Future<Response> request(
+    String url, {
+    HttpMethod method = HttpMethod.post,
+    dynamic params,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      if (method == HttpMethod.get) {
+        return await dio.get(
+          url,
+          queryParameters: params,
+          options: options,
+          cancelToken: cancelToken,
+        );
+      } else {
+        return await dio.post(
+          url,
+          data: params,
+          options: options,
+          cancelToken: cancelToken,
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<dynamic> get(
@@ -38,7 +63,7 @@ class HttpClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      final res = await _dio.get(
+      final res = await dio.get(
         uri,
         queryParameters: query,
         options: options,
@@ -60,7 +85,7 @@ class HttpClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      final res = await _dio.post(
+      final res = await dio.post(
         uri,
         data: data,
         options: options,

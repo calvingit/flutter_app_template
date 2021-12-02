@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_template/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import 'splash_controller.dart';
@@ -13,10 +12,7 @@ class SplashPage extends GetView<SplashController> {
         title: const Text('SplashPage'),
         actions: [
           TextButton(
-            onPressed: () {
-              //
-              Get.offAndToNamed(Routes.login);
-            },
+            onPressed: controller.click,
             child: Text('sign_in'.tr, style: context.textTheme.button),
           ),
         ],

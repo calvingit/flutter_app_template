@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 
-import '/pages/splash/splash_binding.dart';
-import '/pages/splash/splash_page.dart';
-import '/pages/home/home_binding.dart';
-import '/pages/home/home_page.dart';
-import '/pages/login/login_binding.dart';
-import '/pages/login/login_Page.dart';
-
+import '/modules/splash/splash_binding.dart';
+import '/modules/splash/splash_page.dart';
+import '/modules/home/home_binding.dart';
+import '/modules/home/home_page.dart';
+import '/modules/login/login_binding.dart';
+import '/modules/login/login_Page.dart';
+import '/modules/my/change_name/change_name_binding.dart';
+import '/modules/my/change_name/change_name_page.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -29,6 +30,11 @@ class AppPages {
       name: Routes.home,
       page: () => const HomePage(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: Routes.changeName,
+      page: () => ChangeNamePage(),
+      binding: ChangeNameBinding(),
     ),
   ];
 }

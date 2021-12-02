@@ -15,4 +15,8 @@ class SplashController extends GetxController {
       Get.offAndToNamed(Routes.login);
     });
   }
+
+  void click() {
+    //
+  }
 }

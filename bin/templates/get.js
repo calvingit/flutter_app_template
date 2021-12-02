@@ -2,7 +2,7 @@ let param = process.argv[2];
 console.log('module:' + param);
 const fs = require('fs/promises');
 
-const pagesRootPath = './lib/pages/';
+const pagesRootPath = './lib/modules/';
 let pagePath = pagesRootPath + param;
 let className = getClassName(param); // 类名
 
