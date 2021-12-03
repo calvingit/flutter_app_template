@@ -39,6 +39,8 @@ dependencies:
   dio: # http 请求
   logger: # 日志
   get_storage: ^2.0.3 # 存储
+  flutter_dotenv: ^5.0.2 # .env 文件
+  json_annotation: ^4.4.0 # json 注解
 
 dev_dependencies:
   flutter_test:
@@ -65,3 +67,4 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - .env
