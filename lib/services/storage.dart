@@ -1,51 +1,31 @@
 import 'package:get/get.dart';
-import 'package:mmkv/mmkv.dart';
+import 'package:get_storage/get_storage.dart';
 
 /// Key-Value存储，选用腾讯的mmkv作为底层实现
 class StorageService extends GetxService {
   static StorageService get to => Get.find();
-  late MMKV _mmkv;
+  GetStorage box = GetStorage();
   Future<StorageService> init() async {
-    await MMKV.initialize();
-    _mmkv = MMKV.defaultMMKV();
     return StorageService();
   }
 
   /// 写入字符串数据
-  void write<T>(String key, T value) {
-    if (T is bool) {
-      _mmkv.encodeBool(key, value as bool);
-    } else if (T is int) {
-      _mmkv.encodeInt(key, value as int);
-    } else if (T is String) {
-      _mmkv.encodeString(key, value as String);
-    } else if (value == null) {
-      remove(key);
-    } else {
-      AssertionError('Not supported');
-    }
+  Future<void> write(String key, dynamic value) async {
+    await box.write(key, value);
   }
 
   /// 读取字符串数据
-  T? read<T>(String key) {
-    if (T is bool) {
-      _mmkv.decodeBool(key);
-    } else if (T is int) {
-      _mmkv.decodeInt(key);
-    } else if (T is String) {
-      _mmkv.decodeString(key);
-    } else {
-      throw Exception('Not supported');
-    }
+  T read<T>(String key) {
+    return box.read(key);
   }
 
   /// 删除数据
-  void remove(String key) {
-    _mmkv.removeValue(key);
+  Future<void> remove(String key) async {
+    await box.remove(key);
   }
 
   /// 清空所有数据
-  void cleanup() {
-    _mmkv.clearAll();
+  Future<void> cleanup() async {
+    await box.erase();
   }
 }

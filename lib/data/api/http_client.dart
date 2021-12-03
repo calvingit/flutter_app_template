@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_app_template/data/api/api_exception.dart';
 
 import 'interceptors/request_interceptor.dart';
 import 'interceptors/response_interceptor.dart';
@@ -53,49 +52,6 @@ class HttpClient {
       }
     } catch (e) {
       rethrow;
-    }
-  }
-
-  Future<dynamic> get(
-    String uri, {
-    Map<String, dynamic>? query,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final res = await dio.get(
-        uri,
-        queryParameters: query,
-        options: options,
-        cancelToken: cancelToken,
-      );
-      return res.data;
-    } on DioError catch (e) {
-      throw ApiException.dioError(e);
-    } catch (e) {
-      throw ApiException(code: -1, message: e.toString());
-    }
-  }
-
-  /// ignore: long-parameter-list
-  Future<dynamic> post(
-    String uri, {
-    data,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final res = await dio.post(
-        uri,
-        data: data,
-        options: options,
-        cancelToken: cancelToken,
-      );
-      return res.data;
-    } on DioError catch (e) {
-      throw ApiException.dioError(e);
-    } catch (e) {
-      throw ApiException(code: -1, message: e.toString());
     }
   }
 }

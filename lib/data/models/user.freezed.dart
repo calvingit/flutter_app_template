@@ -36,7 +36,7 @@ class _$UserTearOff {
     );
   }
 
-  User fromJson(Map<String, Object> json) {
+  User fromJson(Map<String, Object?> json) {
     return User.fromJson(json);
   }
 }
@@ -208,28 +208,19 @@ class _$_User extends _User {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _User &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+        (other.runtimeType == runtimeType &&
+            other is _User &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.telephone, telephone) ||
-                const DeepCollectionEquality()
-                    .equals(other.telephone, telephone)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.age, age) ||
-                const DeepCollectionEquality().equals(other.age, age)) &&
-            (identical(other.headimg, headimg) ||
-                const DeepCollectionEquality().equals(other.headimg, headimg)));
+                other.telephone == telephone) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.headimg, headimg) || other.headimg == headimg));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(telephone) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(age) ^
-      const DeepCollectionEquality().hash(headimg);
+      Object.hash(runtimeType, id, telephone, name, age, headimg);
 
   @JsonKey(ignore: true)
   @override
@@ -256,23 +247,23 @@ abstract class _User extends User {
   @override
 
   /// 用户id
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
 
   /// 手机号码
-  String get telephone => throw _privateConstructorUsedError;
+  String get telephone;
   @override
 
   /// 姓名
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
 
   /// 年龄
-  int get age => throw _privateConstructorUsedError;
+  int get age;
   @override
 
   /// 头像链接(可选)
-  String? get headimg => throw _privateConstructorUsedError;
+  String? get headimg;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;

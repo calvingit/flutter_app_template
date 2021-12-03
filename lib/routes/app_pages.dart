@@ -8,6 +8,8 @@ import '/modules/login/login_binding.dart';
 import '/modules/login/login_Page.dart';
 import '/modules/my/change_name/change_name_binding.dart';
 import '/modules/my/change_name/change_name_page.dart';
+import '/modules/my/profile/profile_binding.dart';
+import '/modules/my/profile/profile_page.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -33,8 +35,13 @@ class AppPages {
     ),
     GetPage(
       name: Routes.changeName,
-      page: () => ChangeNamePage(),
+      page: () => const ChangeNamePage(),
       binding: ChangeNameBinding(),
+    ),
+    GetPage(
+      name: Routes.profile,
+      page: () => const ProfilePage(),
+      binding: ProfileBinding(),
     ),
   ];
 }

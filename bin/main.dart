@@ -1,29 +1,32 @@
 import 'dart:io';
-import './templates/index.dart';
+import './templates/binding_template.dart';
+import './templates/controller_template.dart';
+import './templates/page_template.dart';
+import './templates/repository_template.dart';
+import './templates/model_template.dart';
 
 const lineNumber = 'line-number';
 
 void main(List<String> arguments) async {
-  parse(arguments);
+  runBuilder();
+  //parse(arguments);
 }
 
 void parse(List<String> arguments) {
-  if (arguments.length < 2) {
-    help();
-    return;
+  if (arguments.isNotEmpty) {
+    switch (arguments[0]) {
+      case '-x':
+        final parent = arguments.length > 2 ? arguments[2] : null;
+        createModule(arguments[1], parent);
+        return;
+      case '-m':
+        createModel(arguments[1]);
+        return;
+      default:
+    }
   }
 
-  switch (arguments[0]) {
-    case '-x':
-      final parent = arguments.length > 2 ? arguments[2] : null;
-      createModule(arguments[1], parent);
-      break;
-    case '-m':
-      createModel(arguments[1]);
-      break;
-    default:
-      help();
-  }
+  help();
 }
 
 void help() {
@@ -41,7 +44,7 @@ void createModule(String moduleName, String? parentModule) {
   stdout.writeln('Prepare creating module: $moduleName' +
       (parentModule == null ? '' : ' in $parentModule'));
   final directory =
-      Directory('../lib/modules/' + (parentModule ?? '') + '/$moduleName');
+      Directory('./lib/modules/' + (parentModule ?? '') + '/$moduleName');
 
   // 创建目录
   directory.createSync(recursive: true);
@@ -87,7 +90,7 @@ void createRoute(String moduleName, String? parentModule, String className) {
   final imports = "import '$path/${moduleName}_binding.dart';\n"
       "import '$path/${moduleName}_page.dart';";
 
-  File appPages = File('../lib/routes/app_pages.dart');
+  File appPages = File('./lib/routes/app_pages.dart');
   List<String> lines = appPages.readAsLinesSync();
   // 找到最后一个import
   int index = lines.lastIndexWhere((element) => element.contains('import'));
@@ -108,7 +111,7 @@ void createRoute(String moduleName, String? parentModule, String className) {
   appPages.writeAsStringSync(lines.join('\n'));
 
   // routes部分
-  File appRoutes = File('../lib/routes/app_routes.dart');
+  File appRoutes = File('./lib/routes/app_routes.dart');
   lines = appRoutes.readAsLinesSync();
   index = lines.lastIndexWhere((element) => element.contains('}'));
   final content =
@@ -121,10 +124,28 @@ void createRoute(String moduleName, String? parentModule, String className) {
 void createModel(String modelName) {
   stdout.writeln('Prepare creating freezed model: $modelName');
 
-  File file = File('../lib/data/models/$modelName.dart');
+  File file = File('./lib/data/models/$modelName.dart');
   final content = modelContent(modelName, modelName.toCapitalized());
   file.writeAsStringSync(content);
-  stdout.writeln('Done');
+
+  runBuilder();
+}
+
+void runBuilder() {
+  stdout.writeln(
+      'flutter pub run build_runner build --delete-conflicting-outputs');
+  Process.run('flutter', [
+    'pub',
+    'run',
+    'build_runner',
+    'build',
+    '--delete-conflicting-outputs',
+  ]).then((ProcessResult pr) {
+    stdout.writeln(pr.exitCode);
+    stdout.writeln(pr.stdout);
+    stdout.writeln(pr.stderr);
+    stdout.writeln('Done');
+  });
 }
 
 extension CapitalizedString on String {
